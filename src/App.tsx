@@ -10,6 +10,7 @@ import {bg_images} from './constants';
 import {MultiButton} from "./components/MultiButton/MultiButton";
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import {MultiInput} from "./components/MultiInput/MultiInput";
+import {AddItemForm} from "./components/AddItemForm/AddItemForm";
 
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
@@ -98,6 +99,14 @@ function App() {
         delete tasks[todoID]
     }
 
+    const addToDoHandler = (newTitle: string) => {
+        const newTodoID = v1();
+        const newTodo = {id: newTodoID, title: newTitle, filter: 'all'}
+
+        setTodos([...todos, newTodo])
+        setTasks({...tasks, [newTodoID]: []})
+    }
+
     const todoLists = todos.map(el => {
         let getFilterTasks = tasks[el.id];
 
@@ -142,14 +151,18 @@ function App() {
                     setBgImage={setBgImage}
                 />
                 <div className='todolists_block'>
+
                     {todoLists}
-                    <MultiButton
-                        callBack={() => {}}
-                        className={'add_todo_btn'}
-                    >
-                        <AddBoxIcon/>
-                        <span className='add_todo_text'>Add a new todo</span>
-                    </MultiButton>
+                    <div>
+                        <AddItemForm callBack={addToDoHandler} />
+                    </div>
+                    {/*<MultiButton*/}
+                    {/*    callBack={() => {}}*/}
+                    {/*    className={'add_todo_btn'}*/}
+                    {/*>*/}
+                    {/*    <AddBoxIcon/>*/}
+                    {/*    <span className='add_todo_text'>Add a new todo</span>*/}
+                    {/*</MultiButton>*/}
                 </div>
             </div>
         </div>

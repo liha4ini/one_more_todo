@@ -6,6 +6,7 @@ import './Todolist.css';
 import {MultiButton} from "../MultiButton/MultiButton";
 import {MultiInput} from "../MultiInput/MultiInput";
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import {AddItemForm} from "../AddItemForm/AddItemForm";
 
 
 type TodolistPropsType = {
@@ -41,8 +42,8 @@ export default function Todolist(props: TodolistPropsType) {
         ...restProps
     } = props;
 
-    const [inputValue, setInputValue] = useState('')
-    const [error, setError] = useState<string | null>(null)
+    // const [inputValue, setInputValue] = useState('')
+    // const [error, setError] = useState<string | null>(null)
     // const [filterTasks, setFilterTasks] = useState<FilterValuesType>('all')
 
     // const filteredTasks = () => {
@@ -76,19 +77,10 @@ export default function Todolist(props: TodolistPropsType) {
         deleteTask(todoID, taskID)
     }
 
-    const addTaskHandler = () => {
-        if (inputValue.trim() !== '') {
-            addTask(todoID, inputValue)
-            setInputValue('')
-        } else {
-            setError('Title is required')
-        }
-
+    const addTaskHandler = (newTitle: string) => {
+        props.addTask(props.todoID, newTitle)
     }
 
-    const onEnterHandler = () => {
-        addTask(todoID, inputValue)
-    }
 
     const removeTodolistHandler = () => {
         removeTodolist(todoID)
@@ -139,21 +131,22 @@ export default function Todolist(props: TodolistPropsType) {
 
 
             <div className='input_block'>
-                <MultiInput
-                    inputValue={inputValue}
-                    setInputValue={setInputValue}
-                    // inputClasses={error ? 'error' : 'input'}
-                    inputClasses={'input'}
-                    callBack={onEnterHandler}
-                    placeholder={'Add a new task'}
-                />
-                {/*{error && <div className={'error-message'}>{error}</div>}*/}
-                <MultiButton
-                    callBack={addTaskHandler}
-                    className={''}
-                >
-                    <span>Add</span>
-                </MultiButton>
+                <AddItemForm callBack={addTaskHandler} />
+                {/*<MultiInput*/}
+                {/*    inputValue={inputValue}*/}
+                {/*    setInputValue={setInputValue}*/}
+                {/*    // inputClasses={error ? 'error' : 'input'}*/}
+                {/*    inputClasses={'input'}*/}
+                {/*    callBack={onEnterHandler}*/}
+                {/*    placeholder={'Add a new task'}*/}
+                {/*/>*/}
+                {/*/!*{error && <div className={'error-message'}>{error}</div>}*!/*/}
+                {/*<MultiButton*/}
+                {/*    callBack={addTaskHandler}*/}
+                {/*    className={''}*/}
+                {/*>*/}
+                {/*    <span>Add</span>*/}
+                {/*</MultiButton>*/}
             </div>
             <ul className='tasks_block'>
                 {todoItems}
